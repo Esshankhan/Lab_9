@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Product Inventory Management</title>
+</head>
+<body>
+  <h1> Product Inventory Management</h1>
+
+  <label for="Id">Product ID:</label>
+  <input type="number" id="productId"><br>
+  <label for="Name">Product Name:</label>
+  <input type="text" id="productName"><br>
+  <label for="productQuantity">Quantity:</label>
+  <input type="number" id="productQuantity"><br><ul></ul>
+  <button onclick="addProduct()">Add Product</button><br>
+  <button onclick="displayInventory()">Display Inventory</button><br>
+  <button onclick="findProduct()">Find Product</button>
+
+  <div id="Inventory Display"></div>
+
+  <script>
+    let inventory = {};
+
+    function addProduct() {
+        let productId = parseInt(document.getElementById("productId").value);
+        let productName = document.getElementById("productName").value;
+        let productQuantity = parseInt(document.getElementById("productQuantity").value);
+        if (!isNaN(productId) && productName && !isNaN(productQuantity) && productQuantity > 0) {
+          
+            if (inventory[productId]) {
+                document.getElementById("Inventory Display").textContent = `Product with ID ${productId} already exists in the inventory.`;
+            } else {
+               
+                inventory[productId] = { name: productName, quantity: productQuantity };
+                document.getElementById("Inventory Display").textContent = `Product with ID ${productId} added to the inventory.`;
+            }
+        } else {
+            document.getElementById("Inventory Display").textContent = "Please enter a valid input for ID, Name, and Quantity.";
+        }
+    }
+
+    function displayInventory() {
+        let output = "Current Inventory:<br>";
+        for (let productId in inventory) {
+            let product = inventory[productId];
+            output += `ID: ${productId}, Name: ${product.name}, Quantity: ${product.quantity}<br>`;
+        }
+        document.getElementById("Inventory Display").innerHTML = output;
+    }
+
+
+    function findProduct() {
+        let productId = parseInt(document.getElementById("productId").value);
+        if (!isNaN(productId) && inventory[productId]) {
+            let product = inventory[productId];
+            document.getElementById("Inventory Display").textContent = `Product found - ID: ${productId}, Name: ${product.name}, Quantity: ${product.quantity}`;
+        } else {
+            document.getElementById("Inventory Display").textContent = `Product not found in inventory.`;
+        }
+    }
+  </script>
+</body>
+</html>
